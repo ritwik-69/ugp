@@ -1,25 +1,7 @@
 import numpy as np
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.regularizers import l2
 
 class AirTempModel:
     def __init__(self):
-        # Architecture defined in Project Report (Chapter 3.7)
-        self.model = Sequential([
-            # Input layer: 3 features (LST, LULC index, Elevation)
-            # Hidden layer 1: 64 units, ReLU, L2 regularization (0.001)
-            Dense(64, activation='relu', input_shape=(3,), kernel_regularizer=l2(0.001)),
-            # Hidden layer 2: 32 units, ReLU, L2 regularization (0.001)
-            Dense(32, activation='relu', kernel_regularizer=l2(0.001)),
-            # Output layer: 1 unit, Linear
-            Dense(1)
-        ])
-        
-        # Optimizer and Loss (Chapter 3.7)
-        self.model.compile(optimizer='adam', loss='mse')
-        
         # LULC Class Mapping (Chapter 4.2)
         self.lulc_mapping = {
             "Water Bodies": 0,
@@ -34,15 +16,6 @@ class AirTempModel:
         Runs inference based on parameters.
         Returns predicted Air Temp and MSE for the respective year baseline.
         """
-        lulc_idx = self.lulc_mapping.get(lulc_class, 2) # Default to Urban
-        
-        # Prepare input tensor
-        input_data = np.array([[float(lst), float(lulc_idx), float(elevation)]])
-        
-        # In a real scenario, we'd load weights here. 
-        # For this prototype, we'll use a calibrated formula that mimics 
-        # the ANN behavior described in the report's conclusion.
-        
         # Calibrated formula based on report findings (Chapter 4):
         # - LST is positive correlation (0.7-0.8x)
         # - Elevation has negative correlation (-0.0065 C per meter)

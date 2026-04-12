@@ -1,7 +1,8 @@
 fastapi
 uvicorn
 numpy
-tensorflow
 pandas
 python-multipart
 starlette
+scikit-learn
+scipy

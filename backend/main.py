@@ -3,8 +3,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
-from .ml_model import model
-from .processor import processor
+from ml_model import model
+from processor import processor
 
 app = FastAPI(title="Varanasi Climate API")
 

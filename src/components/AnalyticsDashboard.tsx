@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, 
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
   ScatterChart, Scatter, Line, ComposedChart, Cell 
 } from 'recharts';
 import img1996 from '../assets/1996.png';
@@ -102,7 +102,7 @@ const AnalyticsDashboard: React.FC = () => {
                   contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
                 />
                 <Bar dataKey="area" radius={[10, 10, 0, 0]}>
-                  {data.zonalStats.map((entry, index) => (
+                  {data.zonalStats.map((_entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Bar>

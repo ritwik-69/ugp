@@ -1,78 +1,76 @@
 import numpy as np
+import pandas as pd
 from sklearn.svm import SVC
-import random
+import os
 
 class LULCProcessor:
     def __init__(self):
-        # Step 6: Initialize SVM with RBF kernel (standard for GEE classification)
+        # SVM as described in Chapter 3.6 of the report
         self.classifier = SVC(kernel='rbf', C=100, gamma='auto')
         self.is_trained = False
         
-        # LULC Classes (1-5) as defined in your report
+        # Consistent mapping with frontend and API contract
+        # Adjusted to match 0-based indexing from GEE CSV export
         self.classes = {
-            1: {"name": "Water Bodies", "color": "#3b82f6", "class_id": 1},
-            2: {"name": "Vegetative Areas", "color": "#22c55e", "class_id": 2},
-            3: {"name": "Urban", "color": "#ef4444", "class_id": 3},
-            4: {"name": "Forests", "color": "#166534", "class_id": 4},
-            5: {"name": "Barelands", "color": "#eab308", "class_id": 5}
+            0: {"name": "Water Bodies", "color": "#3b82f6", "class_id": 0},
+            1: {"name": "Vegetative Areas", "color": "#22c55e", "class_id": 1},
+            2: {"name": "Urban", "color": "#ef4444", "class_id": 2},
+            3: {"name": "Barelands", "color": "#eab308", "class_id": 3},
+            4: {"name": "Forests", "color": "#166534", "class_id": 4}
         }
 
-    def train_mock_model(self):
+    def train_from_csv(self, csv_paths):
         """
-        Step 3-5: Simulate training with pixel features (Bands 2-7)
-        Features: [Blue, Green, Red, NIR, SWIR1, SWIR2]
+        Loads data and trains the SVM classifier.
+        Supports a single CSV path or a list of paths.
         """
-        # Synthetic training data based on spectral signatures
-        # [Blue, Green, Red, NIR, SWIR1, SWIR2]
-        training_data = [
-            [0.1, 0.1, 0.05, 0.02, 0.01, 0.01], # Water (Low reflection)
-            [0.05, 0.15, 0.05, 0.4, 0.2, 0.1],  # Vegetation (High NIR)
-            [0.2, 0.2, 0.25, 0.2, 0.3, 0.3],    # Urban (High reflection)
-            [0.03, 0.1, 0.03, 0.5, 0.15, 0.05], # Forest (Very high NIR)
-            [0.15, 0.2, 0.3, 0.25, 0.5, 0.4]    # Bareland (High SWIR)
-        ]
-        labels = [1, 2, 3, 4, 5]
-        
-        # Step 6: Train the SVM
-        self.classifier.fit(training_data, labels)
-        self.is_trained = True
+        try:
+            if isinstance(csv_paths, str):
+                csv_paths = [csv_paths]
+                
+            dfs = []
+            for path in csv_paths:
+                if os.path.exists(path):
+                    dfs.append(pd.read_csv(path))
+                else:
+                    print(f"Warning: CSV not found at {path}")
+            
+            if not dfs:
+                print("No valid CSV files found.")
+                return False
+                
+            df = pd.concat(dfs, ignore_index=True)
+            
+            # Features: [LST, Elevation, Lat, Lng]
+            X = df[['lst', 'elevation', 'lat', 'lng']].values
+            y = df['lulc'].values
+            
+            self.classifier.fit(X, y)
+            self.is_trained = True
+            print(f"LULCProcessor trained on {len(df)} points from {len(dfs)} CSV files.")
+            return True
+        except Exception as e:
+            print(f"Training error: {e}")
+            return False
 
-    def classify_pixel(self, lat, lng, year):
+    def classify_pixel(self, lat, lng, features=None):
         """
-        Simulates Step 6: Applying the trained model to the entire image
+        Classifies a pixel using the trained SVM model.
         """
         if not self.is_trained:
-            self.train_mock_model()
+            # Fallback mock if not trained
+            return self.classes[2] # Urban
             
-        # Geography-based spectral simulation for Varanasi
-        dist_from_ghats = np.sqrt((lat - 25.3176)**2 + (lng - 82.9739)**2)
-        is_near_river = 83.00 < lng < 83.02
-        
-        # Urban sprawl increases over the years (Chapter 4.1)
-        urban_threshold = 0.03 if year == 2000 else 0.06 if year == 2010 else 0.09
-        
-        if is_near_river:
-            # Generate "Water" signature
-            features = [0.1, 0.1, 0.05, 0.02, 0.01, 0.01]
-        elif dist_from_ghats < urban_threshold:
-            # Generate "Urban" signature
-            features = [0.2 + random.uniform(0, 0.1), 0.2, 0.25, 0.2, 0.3, 0.3]
-        elif dist_from_ghats > 0.15:
-            # Generate "Forest" signature (Periphery)
-            features = [0.03, 0.1, 0.03, 0.5, 0.15, 0.05]
-        else:
-            # Mix of Vegetation and Bareland
-            if random.random() > 0.7:
-                features = [0.15, 0.2, 0.3, 0.25, 0.5, 0.4] # Bareland
-            else:
-                features = [0.05, 0.15, 0.05, 0.4, 0.2, 0.1] # Veg
-        
-        # Run the SVM classifier
-        class_id = self.classifier.predict([features])[0]
-        return {
-            "class_id": int(class_id),
-            "name": self.classes[class_id]["name"],
-            "color": self.classes[class_id]["color"]
-        }
+        try:
+            if features is None:
+                return self.classes[2]
+            
+            input_features = np.array([[features['lst'], features['elevation'], lat, lng]])
+            class_id = self.classifier.predict(input_features)[0]
+            
+            return self.classes.get(int(class_id), self.classes[2])
+        except Exception as e:
+            print(f"Classification error: {e}")
+            return self.classes[2]
 
 processor = LULCProcessor()

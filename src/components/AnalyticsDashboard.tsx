@@ -3,9 +3,9 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
   ScatterChart, Scatter, Line, ComposedChart, Cell 
 } from 'recharts';
-import img1996 from '../assets/1996.png';
-import img2006 from '../assets/2006.png';
-import img2016 from '../assets/2016.png';
+import img2000 from '../assets/LULC_2000_WhiteBG.png';
+import img2010 from '../assets/LULC_2010_WhiteBG.png';
+import img2020 from '../assets/LULC_2020_WhiteBG.png';
 
 interface ZonalStat {
   class: string;
@@ -23,10 +23,10 @@ interface AccuracyPoint {
 const LULCImage: React.FC<{ year: number }> = ({ year }) => {
   const getImage = () => {
     switch (year) {
-      case 2000: return img1996;
-      case 2010: return img2006;
-      case 2020: return img2016;
-      default: return img2016;
+      case 2000: return img2000;
+      case 2010: return img2010;
+      case 2020: return img2020;
+      default: return img2020;
     }
   };
 
@@ -96,7 +96,7 @@ const AnalyticsDashboard: React.FC = () => {
               <BarChart data={data.zonalStats}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                 <XAxis dataKey="class" axisLine={false} tickLine={false} tick={{ fontSize: 11, fontWeight: 700 }} />
-                <YAxis axisLine={false} tickLine={false} />
+                <YAxis axisLine={false} tickLine={false} domain={[0, 'auto']} />
                 <Tooltip 
                   cursor={{ fill: '#f8fafc' }}
                   contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
@@ -119,7 +119,7 @@ const AnalyticsDashboard: React.FC = () => {
               <ComposedChart data={data.zonalStats}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                 <XAxis dataKey="class" axisLine={false} tickLine={false} tick={{ fontSize: 11, fontWeight: 700 }} />
-                <YAxis axisLine={false} tickLine={false} unit="°C" />
+                <YAxis axisLine={false} tickLine={false} unit="°C" domain={[0, 40]} />
                 <Tooltip contentStyle={{ borderRadius: '16px' }} />
                 <Bar dataKey="avgLst" name="Average LST" fill="#3b82f6" radius={[10, 10, 0, 0]} barSize={40} />
                 <Line type="monotone" dataKey="maxLst" name="Max Thermal Intensity" stroke="#ef4444" strokeWidth={3} dot={{ r: 4 }} />
@@ -196,15 +196,49 @@ const AnalyticsDashboard: React.FC = () => {
         </div>
         <div className="h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
-            <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+            <ComposedChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-              <XAxis type="number" dataKey="actual" name="Actual Temp" unit="°C" axisLine={false} tickLine={false} domain={['auto', 'auto']} />
-              <YAxis type="number" dataKey="predicted" name="Predicted Temp" unit="°C" axisLine={false} tickLine={false} domain={['auto', 'auto']} />
+              <XAxis 
+                type="number" 
+                dataKey="actual" 
+                name="Actual Temp" 
+                unit="°C" 
+                axisLine={false} 
+                tickLine={false} 
+                domain={['auto', 'auto']} 
+              />
+              <YAxis 
+                type="number" 
+                dataKey="predicted" 
+                name="Predicted Temp" 
+                unit="°C" 
+                axisLine={false} 
+                tickLine={false} 
+                domain={['auto', 'auto']} 
+              />
               <Tooltip cursor={{ strokeDasharray: '3 3' }} />
               <Scatter name="Data Points" data={data.accuracyPoints} fill="#3b82f6" />
-              {/* Reference Line (Ideal) */}
-              <Line type="monotone" dataKey="actual" stroke="#cbd5e1" strokeDasharray="5 5" dot={false} activeDot={false} />
-            </ScatterChart>
+              {/* Target Reference Line (Ideal y=x) */}
+              <Line 
+                data={[
+                  { 
+                    actual: Math.min(...data.accuracyPoints.map(p => p.actual)), 
+                    predicted: Math.min(...data.accuracyPoints.map(p => p.actual)) 
+                  },
+                  { 
+                    actual: Math.max(...data.accuracyPoints.map(p => p.actual)), 
+                    predicted: Math.max(...data.accuracyPoints.map(p => p.actual)) 
+                  }
+                ]} 
+                type="monotone" 
+                dataKey="predicted" 
+                stroke="#94a3b8" 
+                strokeWidth={2}
+                dot={false} 
+                activeDot={false} 
+                name="Target (y=x)"
+              />
+            </ComposedChart>
           </ResponsiveContainer>
         </div>
         <p className="text-center text-xs text-slate-400 font-medium italic mt-6">

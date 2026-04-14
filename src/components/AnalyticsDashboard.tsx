@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
-  ScatterChart, Scatter, Line, ComposedChart, Cell 
+  Scatter, Line, ComposedChart, Cell 
 } from 'recharts';
 import img2000 from '../assets/LULC_2000_WhiteBG.png';
 import img2010 from '../assets/LULC_2010_WhiteBG.png';

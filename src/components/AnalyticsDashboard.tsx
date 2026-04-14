@@ -151,7 +151,7 @@ const AnalyticsDashboard: React.FC = () => {
               <h5 className="text-center font-black text-slate-800 mb-2 border-b-2 border-slate-200 pb-1 uppercase italic tracking-tighter">LULC Map {selectedYear}</h5>
               
               {/* Real LULC Image */}
-              <div className="aspect-square bg-slate-100 relative overflow-hidden border border-slate-900 z-0">
+              <div className="aspect-square bg-slate-100 relative overflow-hidden border border-slate-900 z-0 flex items-center justify-center">
                  <LULCImage year={selectedYear} />
               </div>
               

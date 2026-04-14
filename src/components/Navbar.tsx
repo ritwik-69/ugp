@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
       <div className="bg-white/80 backdrop-blur-md border border-white/20 shadow-2xl rounded-2xl px-6 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 group">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold group-hover:rotate-12 transition-transform">V</div>
-          <span className="font-black text-slate-800 tracking-tight hidden sm:inline-block">Varanasi Climate</span>
+          <span className="font-black text-slate-800 tracking-tight hidden sm:inline-block">Kashi Temp Hub</span>
         </Link>
         
         <div className="flex items-center gap-1 sm:gap-4">

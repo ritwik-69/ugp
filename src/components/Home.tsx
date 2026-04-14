@@ -16,7 +16,7 @@ const Home: React.FC = () => {
           Explore environmental shifts and climate forecasts for the Varanasi region using high-resolution geospatial data and machine learning.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Link to="/map" className="group p-8 bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all border border-slate-100 flex flex-col items-center">
             <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -45,6 +45,16 @@ const Home: React.FC = () => {
             </div>
             <h3 className="text-lg font-bold text-slate-800 mb-2">Growth Trends</h3>
             <p className="text-sm text-slate-500 text-center leading-relaxed">Visualize urbanization and vegetation shifts over time.</p>
+          </Link>
+          
+          <Link to="/analytics" className="group p-8 bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all border border-slate-100 flex flex-col items-center">
+            <div className="w-16 h-16 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-bold text-slate-800 mb-2">Analytics</h3>
+            <p className="text-sm text-slate-500 text-center leading-relaxed">Correlation and zonal statistics for Varanasi ROI.</p>
           </Link>
         </div>
       </div>

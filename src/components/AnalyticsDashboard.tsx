@@ -32,11 +32,12 @@ const LULCImage: React.FC<{ year: number }> = ({ year }) => {
 
   return (
     <div className="w-full h-full relative group bg-white">
-      <img 
-        src={getImage()} 
-        alt={`LULC Map ${year}`}
-        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-      />
+    <img 
+    src={getImage()} 
+    alt={`LULC Map ${year}`}
+    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" 
+    />
+
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
     </div>
   );

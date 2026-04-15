@@ -6,6 +6,9 @@ import {
 import img2000 from '../assets/LULC_2000_WhiteBG.png';
 import img2010 from '../assets/LULC_2010_WhiteBG.png';
 import img2020 from '../assets/LULC_2020_WhiteBG.png';
+import lst2000 from '../assets/LST_2000_WhiteBG.png';
+import lst2010 from '../assets/LST_2010_WhiteBG.png';
+import lst2016 from '../assets/LST_2016_WhiteBG.png';
 
 interface ZonalStat {
   class: string;
@@ -31,16 +34,39 @@ const LULCImage: React.FC<{ year: number }> = ({ year }) => {
   };
 
   return (
-    <div className="w-full h-full relative group bg-white">
-    <img 
-    src={getImage()} 
-    alt={`LULC Map ${year}`}
-    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" 
-    />
-
+    <div className="w-full h-full relative group bg-white flex items-center justify-center">
+      <img 
+        src={getImage()} 
+        alt={`LULC Map ${year}`}
+        className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" 
+      />
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
     </div>
   );
+};
+
+const LSTImage: React.FC<{ year: number }> = ({ year }) => {
+  const getImage = () => {
+    switch (year) {
+      case 2000: return lst2000;
+      case 2010: return lst2010;
+      case 2020: return lst2016;
+      default: return lst2016;
+    }
+  };
+
+  return (
+    <div className="w-full h-full relative group bg-white flex items-center justify-center">
+      <img 
+        src={getImage()} 
+        alt={`LST Map ${year}`}
+        className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" 
+      />
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
+    </div>
+  );
+};
+
 };
 
 const AnalyticsDashboard: React.FC = () => {

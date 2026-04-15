@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import VaranasiMap from './components/VaranasiMap';
-import PredictionForm from './components/PredictionForm';
-import GrowthTrends from './components/GrowthTrends';
+import VaranasiMap from './components/map/VaranasiMap';
+import PredictionForm from './components/predictor/PredictionForm';
+import GrowthTrends from './components/analytics/GrowthTrends';
 import Home from './components/Home';
 import Layout from './components/Layout';
-import AnalyticsDashboard from './components/AnalyticsDashboard';
+import AnalyticsDashboard from './components/analytics/AnalyticsDashboard';
 import './App.css';
 
 const App: React.FC = () => {

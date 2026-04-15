@@ -3,12 +3,12 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
   Scatter, Line, ComposedChart, Cell 
 } from 'recharts';
-import img2000 from '../assets/LULC_2000_WhiteBG.png';
-import img2010 from '../assets/LULC_2010_WhiteBG.png';
-import img2020 from '../assets/LULC_2020_WhiteBG.png';
-import lst2000 from '../assets/LST_2000_WhiteBG.png';
-import lst2010 from '../assets/LST_2010_WhiteBG.png';
-import lst2016 from '../assets/LST_2016_WhiteBG.png';
+import img2000 from '../../assets/LULC_2000_WhiteBG.png';
+import img2010 from '../../assets/LULC_2010_WhiteBG.png';
+import img2020 from '../../assets/LULC_2020_WhiteBG.png';
+import lst2000 from '../../assets/LST_2000_WhiteBG.png';
+import lst2010 from '../../assets/LST_2010_WhiteBG.png';
+import lst2016 from '../../assets/LST_2016_WhiteBG.png';
 
 interface ZonalStat {
   class: string;

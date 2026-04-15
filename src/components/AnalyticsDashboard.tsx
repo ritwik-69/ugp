@@ -67,7 +67,7 @@ const LSTImage: React.FC<{ year: number }> = ({ year }) => {
   );
 };
 
-};
+
 
 const AnalyticsDashboard: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState(2020);
@@ -159,37 +159,25 @@ const AnalyticsDashboard: React.FC = () => {
       {/* Comparative LULC Gallery (Mirrors the Scientific Paper Layout) */}
       <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-100">
         <h4 className="text-xl font-black text-slate-800 uppercase tracking-widest text-center mb-10 border-b pb-4">
-          LULC Visual Analysis for {selectedYear}
+          Visual Analysis for {selectedYear}
         </h4>
         
-        <div className="grid grid-cols-1 gap-8 max-w-2xl mx-auto">
-          <div key={selectedYear} className="relative group">
-            <div className="border-4 border-slate-900 p-2 bg-white shadow-2xl transition-transform hover:scale-[1.01]">
-              {/* Scientific Metadata labels */}
-              <div className="absolute top-4 right-4 z-[1001] bg-white/90 p-1 border border-slate-900">
-                 <svg width="30" height="30" viewBox="0 0 100 100">
-                    <path d="M50 5 L60 40 L50 35 L40 40 Z" fill="#000" />
-                    <path d="M50 95 L40 60 L50 65 L60 60 Z" fill="#ccc" />
-                    <text x="45" y="105" fontSize="12" fontWeight="bold" fill="black">N</text>
-                 </svg>
-              </div>
-              
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {/* LULC Map */}
+          <div className="relative group">
+            <div className="border-4 border-slate-900 p-2 bg-white shadow-2xl">
               <h5 className="text-center font-black text-slate-800 mb-2 border-b-2 border-slate-200 pb-1 uppercase italic tracking-tighter">LULC Map {selectedYear}</h5>
-              
-              {/* Real LULC Image */}
               <div className="aspect-square bg-slate-100 relative overflow-hidden border border-slate-900 z-0 flex items-center justify-center">
                  <LULCImage year={selectedYear} />
               </div>
-              
-              {/* Scale bar simulation */}
-              <div className="mt-2 flex justify-between items-end">
-                 <div className="flex flex-col">
-                    <div className="w-24 h-2 bg-slate-900 flex">
-                       <div className="w-1/2 h-full bg-white border-r border-slate-900"></div>
-                    </div>
-                    <span className="text-[8px] font-bold">0 10 20 30 40 km</span>
-                 </div>
-                 <span className="text-[8px] font-bold text-slate-400 font-mono tracking-tighter">82.9° E  •  25.3° N</span>
+            </div>
+          </div>
+          {/* LST Map */}
+          <div className="relative group">
+            <div className="border-4 border-slate-900 p-2 bg-white shadow-2xl">
+              <h5 className="text-center font-black text-slate-800 mb-2 border-b-2 border-slate-200 pb-1 uppercase italic tracking-tighter">LST Map {selectedYear}</h5>
+              <div className="aspect-square bg-slate-100 relative overflow-hidden border border-slate-900 z-0 flex items-center justify-center">
+                 <LSTImage year={selectedYear} />
               </div>
             </div>
           </div>

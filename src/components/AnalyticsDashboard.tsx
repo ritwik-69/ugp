@@ -66,7 +66,7 @@ const LSTImage: React.FC<{ year: number }> = ({ year }) => {
       <div className="absolute bottom-4 right-4 bg-white/90 p-3 rounded-lg border border-slate-200 shadow-lg text-[10px] font-bold">
         <p className="mb-1 uppercase tracking-wider text-slate-700">LST Value (°C)</p>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-20 bg-gradient-to-t from-blue-500 via-yellow-400 to-red-500 rounded-sm"></div>
+          <div className="w-4 h-20 bg-gradient-to-t from-yellow-400 via-orange-500 to-red-600 rounded-sm"></div>
           <div className="flex flex-col justify-between h-20 text-[9px] text-slate-600">
             <span>High: 33.4</span>
             <span>Low: 17.6</span>

@@ -4,18 +4,18 @@ import random
 import os
 from scipy.spatial import KDTree
 
-class AirTempModel:
+class TempPredictor:
     def __init__(self):
         # LULC Class Mapping
         # Adjusted to match 0-based indexing from GEE CSV export
-        self.lulc_mapping = {
+        self.class_map = {
             "Water Bodies": 0,
             "Vegetative Areas": 1,
             "Urban": 2,
             "Barelands": 3,
             "Forests": 4
         }
-        self.reverse_lulc = {v: k for k, v in self.lulc_mapping.items()}
+        self.reverse_lulc = {v: k for k, v in self.class_map.items()}
         
         # Data storage for lookups
         self.df = None
@@ -62,18 +62,18 @@ class AirTempModel:
             self.tree = KDTree(coords)
             
             self.is_trained = True
-            print(f"AirTempModel trained on {len(self.df)} points from {len(dfs)} CSV files.")
+            print(f"TempPredictor trained on {len(self.df)} points from {len(dfs)} CSV files.")
             return True
         except Exception as e:
             print(f"Training error: {e}")
             return False
 
-    def predict(self, lst, lulc_class, elevation):
+    def predict(self, lst, lulc, elev):
         """
         Runs inference based on parameters.
         Returns predicted Air Temp and MSE for the respective year baseline.
         """
-        lulc_id = self.lulc_mapping.get(lulc_class, 2) 
+        lulc_id = self.class_map.get(lulc_class, 2) 
         
         base_temp = float(lst) * self.lst_coeff 
         elevation_effect = (float(elevation) - 80) * self.elev_coeff
@@ -84,7 +84,7 @@ class AirTempModel:
         # Return predicted value and standard MSE from report
         return round(float(predicted_temp), 2), 0.9523
 
-    def get_spatial_data(self, lat, lng, year):
+    def fetch_data(self, lat, lng, year):
         """
         CSV-based geospatial lookup.
         Finds the nearest point in the CSV for the specific year and returns its features.
@@ -118,4 +118,4 @@ class AirTempModel:
             "lulc_id": 2
         }
 
-model = AirTempModel()
+model = TempPredictor()

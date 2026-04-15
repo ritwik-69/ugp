@@ -87,13 +87,13 @@ async def predict_air_temp(request: PredictionRequest):
 async def analyze_point(request: AnalysisRequest):
     try:
         # 1. Look up environmental features for coordinate from CSV
-        features = model.get_spatial_data(request.lat, request.lng, request.year)
+        features = model.fetch_data(request.lat, request.lng, request.year)
         
         # 2. Run SVM Classification using the fetched features
         lulc_result = processor.classify_pixel(request.lat, request.lng, features)
         
         # 3. Run ANN prediction
-        predicted_temp, mse = model.predict(features['lst'], lulc_result['name'], features['elevation'])
+        pred, mse = model.predict(features['lst'], lulc_result['name'], features['elevation'])
         
         return {
             "lat": request.lat,
@@ -106,7 +106,7 @@ async def analyze_point(request: AnalysisRequest):
                 "lulc_id": lulc_result['class_id']
             },
             "prediction": {
-                "air_temperature": predicted_temp,
+                "air_temperature": pred,
                 "mse": mse
             }
         }

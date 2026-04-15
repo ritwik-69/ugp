@@ -15,7 +15,7 @@ from ml_model import model
 from processor import processor
 
 # Path to the CSV files in the root directory
-root_dir = os.path.dirname(current_dir)
+root_dir = os.path.join(current_dir, 'data')
 csv_files = [
     os.path.join(root_dir, f) for f in os.listdir(root_dir) 
     if f.startswith('varanasi_climate_data') and f.endswith('.csv')

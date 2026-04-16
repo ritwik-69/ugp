@@ -185,11 +185,29 @@ async def get_analytics(year: int = 2020):
 
 @app.get("/api/trends")
 async def get_trends():
-    return [
-        { "year": "2000", "water": 4.5, "vegetation": 53.5, "forest": 21.8, "urban": 3.2, "bareland": 10.5 },
-        { "year": "2010", "water": 4.1, "vegetation": 42.1, "forest": 17.2, "urban": 13.1, "bareland": 10.8 },
-        { "year": "2020", "water": 2.8, "vegetation": 40.2, "forest": 12.1, "urban": 27.5, "bareland": 3.1 }
-    ]
+    if not model.is_trained:
+        return {"status": "error", "detail": "CSV not loaded"}
+    
+    df = model.df
+    # Group by year and lulc, calculating min and max LST
+    trends = df.groupby(['year', 'lulc'])['lst'].agg(['min', 'max']).reset_index()
+    
+    # Map back to 2000, 2010, 2020 for the UI
+    # CSV years: 1996, 2010, 2020
+    year_map = {1996: "2000", 2010: "2010", 2020: "2020"}
+    
+    # Prepare result for each year
+    result = []
+    for y, label in year_map.items():
+        year_data = {"year": label}
+        for lulc_id, class_info in processor.classes.items():
+            row = trends[(trends['year'] == y) & (trends['lulc'] == lulc_id)]
+            if not row.empty:
+                year_data[f"{class_info['name']}_min"] = round(row['min'].values[0], 2)
+                year_data[f"{class_info['name']}_max"] = round(row['max'].values[0], 2)
+        result.append(year_data)
+        
+    return result
 
 if __name__ == "__main__":
     import uvicorn

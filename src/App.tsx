@@ -31,12 +31,12 @@ const App: React.FC = () => {
             </div>
           } />
           <Route path="trends" element={
-            <div className="max-w-5xl mx-auto px-4 py-8">
-              <div className="text-center mb-12">
-                <h2 className="text-4xl font-black text-slate-900 mb-4">Urbanization Trends</h2>
-                <p className="text-slate-500 max-w-xl mx-auto">Analyzing the historical relationship between urban area growth and vegetation decline in the Varanasi region.</p>
+            <div className="max-w-7xl mx-auto px-4 py-8">
+              <div className="text-center mb-10">
+                <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">Geospatial Evolution Trends</h2>
+                <p className="text-slate-500 max-w-2xl mx-auto font-medium">Historical analysis of land cover variation and surface temperature intensity across the Varanasi region (2000-2020).</p>
               </div>
-              <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-100 h-[500px]">
+              <div className="bg-white p-4 rounded-[2.5rem] shadow-2xl border border-slate-100 h-[650px]">
                 <GrowthTrends />
               </div>
             </div>

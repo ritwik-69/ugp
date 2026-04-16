@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
-  Scatter, Line, ComposedChart, Cell 
+  Scatter, Line, ComposedChart, Cell, Legend
 } from 'recharts';
 import img2000 from '../../assets/LULC_2000_WhiteBG.png';
 import img2010 from '../../assets/LULC_2010_WhiteBG.png';
@@ -84,6 +84,7 @@ const AnalyticsDashboard: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState(2020);
   const [data, setData] = useState<{ zonalStats: ZonalStat[], accuracyPoints: AccuracyPoint[], mse: number } | null>(null);
   const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     setLoading(true);
@@ -213,62 +214,65 @@ const AnalyticsDashboard: React.FC = () => {
       {/* Accuracy Section (Chapter 4.3) */}
       <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-100">
         <div className="flex justify-between items-center mb-8">
-          <h4 className="text-lg font-black text-slate-800 uppercase tracking-wider">ANN Model Accuracy Plot (Actual vs Predicted)</h4>
+          <h4 className="text-lg font-black text-slate-800 uppercase tracking-wider">ANN Model Accuracy Plot (Predicted vs Actual)</h4>
           <div className="flex items-center gap-4">
-            <div className="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl border border-blue-100 font-bold text-sm">
+            <div className="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-100 font-bold text-sm">
               Current MSE: {data.mse}
             </div>
           </div>
         </div>
-        <div className="h-[400px]">
+        <div className="h-[450px]">
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+            <ComposedChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
+              <CartesianGrid strokeDasharray="0" stroke="#ccc" />
               <XAxis 
                 type="number" 
-                dataKey="actual" 
-                name="Actual Temp" 
-                unit="°C" 
-                axisLine={false} 
-                tickLine={false} 
+                dataKey="predicted" 
+                name="Predicted" 
+                axisLine={{ stroke: '#000' }} 
+                tickLine={{ stroke: '#000' }} 
+                tick={{ fill: '#000', fontWeight: 600 }}
                 domain={['auto', 'auto']} 
+                label={{ value: 'Predicted', position: 'bottom', offset: 20, style: { fontWeight: 800, fill: '#000' } }}
               />
               <YAxis 
                 type="number" 
-                dataKey="predicted" 
-                name="Predicted Temp" 
-                unit="°C" 
-                axisLine={false} 
-                tickLine={false} 
+                dataKey="actual" 
+                name="Actual" 
+                axisLine={{ stroke: '#000' }} 
+                tickLine={{ stroke: '#000' }} 
+                tick={{ fill: '#000', fontWeight: 600 }}
                 domain={['auto', 'auto']} 
+                label={{ value: 'Actual', angle: -90, position: 'insideLeft', offset: 10, style: { fontWeight: 800, fill: '#000' } }}
               />
               <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-              <Scatter name="Data Points" data={data.accuracyPoints} fill="#3b82f6" />
-              {/* Target Reference Line (Ideal y=x) */}
+              <Legend verticalAlign="top" align="left" wrapperStyle={{ paddingBottom: '20px', paddingLeft: '60px' }} />
+              <Scatter name="Predicted" data={data.accuracyPoints} fill="#008000" />
+              {/* Actual/Ideal Reference Line */}
               <Line 
                 data={[
                   { 
-                    actual: Math.min(...data.accuracyPoints.map(p => p.actual)), 
-                    predicted: Math.min(...data.accuracyPoints.map(p => p.actual)) 
+                    predicted: Math.min(...data.accuracyPoints.map(p => p.predicted)) - 2, 
+                    actual: Math.min(...data.accuracyPoints.map(p => p.predicted)) - 2 
                   },
                   { 
-                    actual: Math.max(...data.accuracyPoints.map(p => p.actual)), 
-                    predicted: Math.max(...data.accuracyPoints.map(p => p.actual)) 
+                    predicted: Math.max(...data.accuracyPoints.map(p => p.predicted)) + 2, 
+                    actual: Math.max(...data.accuracyPoints.map(p => p.predicted)) + 2 
                   }
                 ]} 
                 type="monotone" 
-                dataKey="predicted" 
-                stroke="#94a3b8" 
-                strokeWidth={2}
+                dataKey="actual" 
+                stroke="#FFFF00" 
+                strokeWidth={3}
                 dot={false} 
                 activeDot={false} 
-                name="Target (y=x)"
+                name="Actual"
               />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
-        <p className="text-center text-xs text-slate-400 font-medium italic mt-6">
-          Correlation Plot generated using Zonal Statistics extraction from ArcGIS-processed satellite layers (Landsat OLI/TIRS)
+        <p className="text-center text-xs text-slate-400 font-medium italic mt-6 uppercase tracking-widest">
+          Chapter 4.3: Regression Analysis Results (Varanasi ROI Model Performance)
         </p>
       </div>
     </div>

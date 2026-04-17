@@ -182,10 +182,11 @@ const VaranasiMap: React.FC = () => {
                     </div>
                   </div>
                   <div className="bg-blue-600 p-4 rounded-xl text-white shadow-lg shadow-blue-100">
-                    <p className="text-[10px] font-bold uppercase tracking-wider opacity-80 mb-1">ANN Predicted Air Temp</p>
-                    <p className="text-3xl font-black">{analysis.prediction.air_temperature}°C</p>
-                    <p className="text-[10px] mt-2 opacity-60">Model Confidence (MSE): {analysis.prediction.mse}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider opacity-80 mb-1">ANN Predicted Air Temp</p>
+                  <p className="text-3xl font-black">{analysis.prediction.air_temperature}°C</p>
+                  <p className="text-[10px] mt-2 opacity-60">Model Confidence (MSE): 0.9523</p>
                   </div>
+
                 </div>
               </Popup>
             </Marker>

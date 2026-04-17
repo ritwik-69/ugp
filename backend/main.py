@@ -86,7 +86,7 @@ async def predict_air_temp(request: PredictionRequest):
         temp, _ = model.predict(request.lst, request.lulc_class, request.elevation)
         return {
             "air_temperature": temp,
-            "mse": 0.0124
+            "mse": 0.9523
         }
     except Exception as e:
         # Returning 400 for bad input scenarios
@@ -206,7 +206,7 @@ async def get_analytics(year: int = 2020):
 
             # Calculate actual MSE for this year's sample
             mse_vals = {2000: 2.1725, 2010: 1.3012, 2020: 0.9523}
-            mse_val = mse_vals.get(year, 0.9523)
+            mse_val = mse_vals.get(year)
 
             return {
                 "year": year,

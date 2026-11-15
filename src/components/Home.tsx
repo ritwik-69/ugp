@@ -1,70 +1,71 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Home: React.FC = () => {
-  return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center relative overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse translate-x-1/2 translate-y-1/2" />
-      
-      <div className="max-w-4xl px-8 text-center z-10">
-        <h1 className="text-6xl font-black text-slate-900 mb-6 tracking-tight">
-          Varanasi <span className="text-blue-600">Climate Insights</span>
+const modules = [
+  { path: '/map', number: '01', title: 'Spatial explorer', description: 'Inspect land cover, surface temperature, elevation, and heat-risk patterns across the city.', tone: 'bg-[#e3efe7] text-[#1f5945]' },
+  { path: '/predict', number: '02', title: 'Temperature model', description: 'Estimate near-surface air temperature from local satellite and terrain conditions.', tone: 'bg-[#e9edf5] text-[#38527d]' },
+  { path: '/trends', number: '03', title: 'Change over time', description: 'Follow how urbanisation, vegetation, and thermal intensity have shifted since 2000.', tone: 'bg-[#f3ead6] text-[#8a5a18]' },
+  { path: '/analytics', number: '04', title: 'Research summary', description: 'Review zonal statistics, model performance, and planning recommendations.', tone: 'bg-[#eee8f0] text-[#704b78]' },
+];
+
+const Home: React.FC = () => (
+  <div className="min-h-[calc(100vh-6rem)] bg-[#f5f7f4]">
+    <section className="mx-auto grid max-w-6xl gap-12 px-6 pb-16 pt-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pt-20">
+      <div>
+        <p className="mb-5 text-xs font-bold uppercase tracking-[0.24em] text-[#1f7654]">Varanasi • Climate intelligence</p>
+        <h1 className="max-w-3xl text-5xl font-semibold leading-[1.05] tracking-[-0.04em] text-[#18271f] md:text-7xl">
+          Read the city through its <span className="text-[#2e765a]">changing surface.</span>
         </h1>
-        <p className="text-xl text-slate-600 mb-12 leading-relaxed max-w-2xl mx-auto">
-          Explore environmental shifts and climate forecasts for the Varanasi region using high-resolution geospatial data and machine learning.
+        <p className="mt-7 max-w-xl text-lg leading-8 text-[#64736a]">
+          Kashi Temp Hub brings satellite observations, land-cover change, and machine learning into one practical research workspace.
         </p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Link to="/map" className="group p-8 bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all border border-slate-100 flex flex-col items-center">
-            <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A2 2 0 013 15.382V6.418a2 2 0 011.106-1.789L9 2l6 3 5.447-2.724A2 2 0 0121 4.618v8.964a2 2 0 01-1.106 1.789L15 18l-6 2z" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-bold text-slate-800 mb-2">Satellite Map</h3>
-            <p className="text-sm text-slate-500 text-center leading-relaxed">Interactive LULC and LST layers from 2000-2020.</p>
+        <div className="mt-9 flex flex-wrap gap-3">
+          <Link to="/map" className="rounded-lg bg-[#1f5945] px-5 py-3 text-sm font-bold text-white shadow-[0_8px_18px_rgba(31,89,69,0.2)] transition hover:bg-[#174936]">
+            Open spatial explorer
           </Link>
-          
-          <Link to="/predict" className="group p-8 bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all border border-slate-100 flex flex-col items-center">
-            <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-bold text-slate-800 mb-2">Climate Predictor</h3>
-            <p className="text-sm text-slate-500 text-center leading-relaxed">Predict surface temperatures using Random Forest models.</p>
-          </Link>
-          
-          <Link to="/trends" className="group p-8 bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all border border-slate-100 flex flex-col items-center">
-            <div className="w-16 h-16 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-bold text-slate-800 mb-2">Growth Trends</h3>
-            <p className="text-sm text-slate-500 text-center leading-relaxed">Visualize urbanization and vegetation shifts over time.</p>
-          </Link>
-          
-          <Link to="/analytics" className="group p-8 bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all border border-slate-100 flex flex-col items-center">
-            <div className="w-16 h-16 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-bold text-slate-800 mb-2">Analytics</h3>
-            <p className="text-sm text-slate-500 text-center leading-relaxed">Correlation and zonal statistics for Varanasi ROI.</p>
+          <Link to="/workspace" className="rounded-lg border border-[#cbd9ce] bg-white px-5 py-3 text-sm font-bold text-[#2d5542] transition hover:border-[#8eb49c] hover:bg-[#f8fbf8]">
+            Test your CSV
           </Link>
         </div>
       </div>
-      
-      {/* Footer Info */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-slate-400 text-xs font-medium tracking-wider uppercase">
-        Climate Analytics Platform • Varanasi Region
+
+      <div className="relative min-h-[330px] overflow-hidden rounded-2xl bg-[#1f5945] p-8 text-white shadow-[0_18px_50px_rgba(31,89,69,0.18)]">
+        <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border-[28px] border-white/10" />
+        <div className="absolute -bottom-28 -left-20 h-72 w-72 rounded-full border-[36px] border-[#9bc8a7]/20" />
+        <div className="relative flex h-full flex-col justify-between">
+          <div className="flex items-center justify-between border-b border-white/15 pb-5">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#c8e7ce]">Current view</span>
+            <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold">2020 baseline</span>
+          </div>
+          <div className="py-10">
+            <p className="text-6xl font-semibold tracking-[-0.05em]">33.4°</p>
+            <p className="mt-2 text-sm text-[#d3ebd7]">observed maximum surface temperature</p>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="border-l border-white/20 pl-3"><p className="text-xl font-semibold">42%</p><p className="text-xs text-[#c8e7ce]">urban cover</p></div>
+            <div className="border-l border-white/20 pl-3"><p className="text-xl font-semibold">18.6°</p><p className="text-xs text-[#c8e7ce]">minimum LST</p></div>
+          </div>
+        </div>
       </div>
-    </div>
-  );
-};
+    </section>
+
+    <section className="mx-auto max-w-6xl border-t border-[#dce6de] px-6 py-10">
+      <div className="mb-6 flex items-end justify-between">
+        <div><p className="text-xs font-bold uppercase tracking-[0.2em] text-[#71917c]">Explore the platform</p><h2 className="mt-2 text-2xl font-semibold text-[#21372d]">Research modules</h2></div>
+        <span className="hidden text-sm text-[#849188] sm:block">Four views, one shared dataset</span>
+      </div>
+      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+        {modules.map((module) => (
+          <Link key={module.path} to={module.path} className="group border border-[#dfe8df] bg-white p-5 transition hover:-translate-y-1 hover:border-[#a9c5b0] hover:shadow-[0_12px_30px_rgba(31,89,69,0.08)]">
+            <div className={`mb-12 inline-flex rounded-md px-2.5 py-1 text-xs font-bold ${module.tone}`}>{module.number}</div>
+            <h3 className="text-lg font-semibold text-[#25382c]">{module.title}</h3>
+            <p className="mt-2 text-sm leading-6 text-[#758178]">{module.description}</p>
+            <span className="mt-5 inline-block text-sm font-bold text-[#2e765a] transition group-hover:translate-x-1">Explore →</span>
+          </Link>
+        ))}
+      </div>
+    </section>
+  </div>
+);
 
 export default Home;

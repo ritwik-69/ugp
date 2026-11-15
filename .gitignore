@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated local artifacts
+tmp/
+output/
+__pycache__/
+*.pyc

@@ -12,26 +12,28 @@ const Navbar: React.FC = () => {
     { path: '/predict', label: 'Predictor' },
     { path: '/trends', label: 'Trends' },
     { path: '/analytics', label: 'Analytics' },
+    { path: '/workspace', label: 'CSV Lab' },
   ];
 
   return (
-    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[2000] w-[90%] max-w-2xl">
-      <div className="bg-white/80 backdrop-blur-md border border-white/20 shadow-2xl rounded-2xl px-6 py-3 flex items-center justify-between">
+    <nav aria-label="Primary navigation" className="fixed top-4 left-1/2 -translate-x-1/2 z-[2000] w-[94%] max-w-6xl">
+      <div className="bg-[#fbfcfa]/95 backdrop-blur-md border border-[#dfe8df] shadow-[0_8px_30px_rgba(27,52,39,0.08)] rounded-xl px-4 py-2.5 flex items-center justify-between gap-4">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold group-hover:rotate-12 transition-transform">V</div>
-          <span className="font-black text-slate-800 tracking-tight hidden sm:inline-block">Kashi Temp Hub</span>
+          <div className="w-8 h-8 bg-[#1f5945] rounded-lg flex items-center justify-center text-[#eff8ef] font-bold">K</div>
+          <span className="font-semibold text-[#21372d] tracking-tight hidden sm:inline-block">Kashi Temp Hub</span>
         </Link>
         
-        <div className="flex items-center gap-1 sm:gap-4">
+        <div className="flex items-center gap-0.5 sm:gap-1 overflow-x-auto">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
               className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${
                 isActive(link.path)
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-200'
-                  : 'text-slate-600 hover:bg-slate-100'
+                  ? 'bg-[#1f5945] text-white shadow-sm'
+                    : 'text-[#637269] hover:bg-[#edf3ed] hover:text-[#21372d]'
               }`}
+              aria-current={isActive(link.path) ? 'page' : undefined}
             >
               {link.label}
             </Link>
